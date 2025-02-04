@@ -1,0 +1,87 @@
+// mainwindow.h
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QVector>
+#include "towar.h"
+#include "dodajtowardialog.h"
+
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow {
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private slots:
+    void on_przyciskDodaj_clicked();
+    void on_przyciskPokaz_clicked();
+    void aktualizujListeTowarow();
+
+private:
+    Ui::MainWindow *ui;
+    QVector<Towar> towary;
+    void wczytajLogo();
+    void ustawTabele();
+};
+
+#endif // MAINWINDOW_H
+
+// towar.h
+#ifndef TOWAR_H
+#define TOWAR_H
+
+#include <QString>
+
+class Towar {
+public:
+    Towar(int id, const QString &nazwa, int ilosc, bool czyPrzyjety);
+    
+    int pobierzId() const { return id; }
+    QString pobierzNazwe() const { return nazwa; }
+    int pobierzIlosc() const { return ilosc; }
+    bool czyJestPrzyjety() const { return czyPrzyjety; }
+
+private:
+    int id;
+    QString nazwa;
+    int ilosc;
+    bool czyPrzyjety;
+};
+
+#endif // TOWAR_H
+
+// dodajtowardialog.h
+#ifndef DODAJTOWARDIALOG_H
+#define DODAJTOWARDIALOG_H
+
+#include <QDialog>
+#include "towar.h"
+
+namespace Ui {
+class DodajTowarDialog;
+}
+
+class DodajTowarDialog : public QDialog {
+    Q_OBJECT
+
+public:
+    explicit DodajTowarDialog(QWidget *parent = nullptr);
+    ~DodajTowarDialog();
+    Towar pobierzTowar() const;
+
+private slots:
+    void on_buttonBox_accepted();
+    void sprawdzIlosc(const QString &tekst);
+
+private:
+    Ui::DodajTowarDialog *ui;
+    Towar *nowyTowar;
+};
+
+#endif // DODAJTOWARDIALOG_H
